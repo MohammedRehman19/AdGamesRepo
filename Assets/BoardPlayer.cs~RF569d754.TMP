@@ -1,0 +1,91 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Photon.Pun;
+public class BoardPlayer : MonoBehaviourPun, IPunObservable
+{
+    public string myplayer;
+    // Start is called before the first frame update
+    void Start()
+    {
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+
+            callOwnerImage(PlayerPrefs.GetInt("ownplayer", 0));
+            // GameObject.FindObjectOfType<Game>().ImagePlayer[0].sprite = GameObject.FindObjectOfType<Game>().spriteSelection[PlayerPrefs.GetInt("ownplayer", 0)];
+            callRegisterName("white");
+        }
+        else
+        {
+            callRegisterName("black");
+        }
+
+
+        if (photonView.IsMine)
+        {
+           
+            GameObject.FindObjectOfType<Game>().BP = this.GetComponent<BoardPlayer>();
+            
+            
+        }
+
+       
+
+      
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+      
+    }
+    public void callMove(string thisgameobject,bool mp,int xs,int ys)
+    {
+        photonView.RPC("Move", RpcTarget.AllBuffered, thisgameobject,mp,xs,ys);
+    }
+    public void callOwnerImage(int indexer)
+    {
+        photonView.RPC("OwnerImage", RpcTarget.AllBuffered, indexer);
+    }
+    public void callRegisterName(string namehere)
+    {
+        photonView.RPC("RegisterName", RpcTarget.AllBuffered, namehere);
+    }
+
+    [PunRPC]
+     void Move(string uid,bool attack,int Xs,int Ys)
+    {
+        PhotonView.Find(int.Parse(uid)).GetComponent<Chessman>().MoveObj(attack,Xs,Ys);
+
+    }
+    [PunRPC]
+    void OwnerImage(int index)
+    {
+ 
+        GameObject.FindObjectOfType<Game>().BP = this.GetComponent<BoardPlayer>();
+        GameObject.FindObjectOfType<Game>().ImagePlayer[0].sprite = GameObject.FindObjectOfType<Game>().spriteSelection[index];
+        if(index == 0)
+        {
+            GameObject.FindObjectOfType<Game>().ImagePlayer[1].sprite = GameObject.FindObjectOfType<Game>().spriteSelection[1];
+        }
+        else
+        {
+            GameObject.FindObjectOfType<Game>().ImagePlayer[1].sprite = GameObject.FindObjectOfType<Game>().spriteSelection[0];
+        }
+
+    }
+    [PunRPC]
+    void RegisterName(string name)
+    {
+        myplayer = name;
+        GameObject.FindObjectOfType<Game>().AvaliabliabltyChecker(name == "white" ? 0 : 1, true);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+       //a
+    }
+
+}
