@@ -14,7 +14,7 @@ public class Chessman : MonoBehaviour
     private int yBoard = -1;
 
     //Variable for keeping track of the player it belongs to "black" or "white"
-    private string player;
+    public string player;
 
     //References to all the possible Sprites that this Chesspiece could be
     public Sprite black_queen, black_knight, black_bishop, black_king, black_rook, black_pawn;
@@ -86,11 +86,11 @@ public class Chessman : MonoBehaviour
 
     private void OnMouseUp()
     {
-        if (controller.GetComponent<Game>().currentPlayer != controller.GetComponent<Game>().BP.myplayer)
-            return;
+      //  if (controller.GetComponent<Game>().currentPlayer != controller.GetComponent<Game>().BP.myplayer)
+      //      return;
 
 
-        if (!controller.GetComponent<Game>().IsGameOver() && controller.GetComponent<Game>().GetCurrentPlayer() == player)
+        if (!controller.GetComponent<Game>().IsGameOver() && controller.GetComponent<Game>().currentPlayer == player)
         {
             //Remove all moveplates relating to previously selected piece
             DestroyMovePlates();
@@ -112,6 +112,7 @@ public class Chessman : MonoBehaviour
 
     public void InitiateMovePlates()
     {
+        print("we are here");
         switch (this.name)
         {
             case "black_queen":
@@ -172,6 +173,7 @@ public class Chessman : MonoBehaviour
 
         if (sc.PositionOnBoard(x, y) && sc.GetPosition(x, y).GetComponent<Chessman>().player != player)
         {
+            print("Attacking");
             MovePlateAttackSpawn(x, y);
         }
     }
@@ -293,8 +295,9 @@ public class Chessman : MonoBehaviour
 
     public void MoveObj(bool attack,int matrixX,int matrixY)
     {
+        
         controller = GameObject.FindGameObjectWithTag("GameController");
-
+        print(controller.GetComponent<Game>().BP.GetComponent<PhotonView>().ViewID +" == "+matrixX+" == "+ matrixY);
         //Destroy the victim Chesspiece
         if (attack)
         {

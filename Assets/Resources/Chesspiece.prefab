@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2692184396404375455}
   - component: {fileID: -490040274308096976}
   - component: {fileID: 7068999908475216718}
-  - component: {fileID: -1705855804226102841}
-  - component: {fileID: 9168855366778810217}
+  - component: {fileID: -763841086289653618}
+  - component: {fileID: -724494383717574158}
   m_Layer: 0
   m_Name: Chesspiece
   m_TagString: Untagged
@@ -50,6 +50,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -100,6 +101,7 @@ MonoBehaviour:
   controller: {fileID: 0}
   movePlate: {fileID: 4427528937630144105, guid: 975cd21375dfdf440977be8479f87330,
     type: 3}
+  player: 
   black_queen: {fileID: 21300000, guid: 815d1272350ed474fa30d14ae7ca13b0, type: 3}
   black_knight: {fileID: 21300000, guid: a1f14d99584a32845bff5722f459abc3, type: 3}
   black_bishop: {fileID: 21300000, guid: 9b6975579503d444a83355c7dba7e161, type: 3}
@@ -138,7 +140,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.2}
   m_EdgeRadius: 0
---- !u!114 &-1705855804226102841
+--- !u!114 &-763841086289653618
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,11 +159,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 9168855366778810217}
+  - {fileID: -724494383717574158}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &9168855366778810217
+--- !u!114 &-724494383717574158
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

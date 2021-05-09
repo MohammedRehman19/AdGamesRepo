@@ -8,6 +8,8 @@ using Photon.Realtime;
 using UnityEngine.UI;
 public class PhotonInGameManager : MonoBehaviourPunCallbacks
 {
+
+
     void Start()
     {
         if (!PhotonNetwork.IsConnected) // 1
@@ -25,17 +27,7 @@ public class PhotonInGameManager : MonoBehaviourPunCallbacks
     }
     public override void OnPlayerEnteredRoom(Player other)
     {
-      
-        //Debug.Log("OnPlayerEnteredRoom() " + other.NickName); // not seen if you're the player connecting
-
-        //if (PhotonNetwork.IsMasterClient)
-        //{
-        //    Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
-
-        //    LoadArena();
-        //}
-
-
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<Game>().BP.callstartGame();
     }
     public override void OnPlayerLeftRoom(Player other)
     {

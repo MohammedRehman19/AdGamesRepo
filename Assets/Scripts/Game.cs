@@ -20,15 +20,17 @@ public class Game : MonoBehaviour
     public List<Sprite> spriteSelection = new List<Sprite>();
     public List<Image> ImagePlayer = new List<Image>();
     public List<Image> TurnImage = new List<Image>();
+    public List<RectTransform> ImagePos = new List<RectTransform>();
     public List<Toggle> AvaliblePlayer = new List<Toggle>();
     //current turn
     public string currentPlayer = "white";
 
     //Game Ending
     private bool gameOver = false;
+    public GameObject SideImagePrefab;
 
-   
-   
+
+
     public Text currentTurnTxt;
     public int Id = 1;
  
@@ -57,8 +59,12 @@ public class Game : MonoBehaviour
             SetPosition(playerWhite[i]);
         }
 
-        TurnImage[0].gameObject.SetActive(true);
-        TurnImage[1].gameObject.SetActive(false);
+        //TurnImage[0].gameObject.SetActive(true);
+        //TurnImage[1].gameObject.SetActive(false);
+        //AvaliblePlayer[0].isOn = true;
+        //AvaliblePlayer[1].isOn = false;
+        CreateImage();
+        CreateImage();
     }
 
     public GameObject Create(string name, int x, int y)
@@ -73,6 +79,21 @@ public class Game : MonoBehaviour
         cm.SetYBoard(y);
         cm.Activate(); //It has everything set up so it can now Activate()
         return obj;
+    }
+
+    public void CreateImage()
+    {
+        GameObject obj = Instantiate(SideImagePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        PhotonView photonView = obj.GetComponent<PhotonView>();
+        photonView.ViewID = Id;
+        Id += 50005;
+        obj.transform.SetParent(GameObject.Find("Canvas").transform);
+        obj.transform.localPosition = ImagePos[ImagePlayer.Count].GetComponent<RectTransform>().localPosition;
+        obj.transform.localScale = Vector3.one;
+        ImagePlayer.Add(obj.GetComponent<Image>());
+        TurnImage.Add(obj.transform.GetChild(0).GetComponent<Image>());
+        AvaliblePlayer.Add(obj.transform.GetChild(1).GetComponent<Toggle>());
+       
     }
 
     public void SetPosition(GameObject obj)
@@ -99,29 +120,48 @@ public class Game : MonoBehaviour
         return true;
     }
 
-    public string GetCurrentPlayer()
-    {
-        return currentPlayer;
-    }
-
+    
     public bool IsGameOver()
     {
         return gameOver;
+    }
+
+
+    public void PlayersTurn()
+    {
+        switch (currentPlayer)
+        {
+            case "white":
+                currentPlayer = "black";
+                break;
+            case "black":
+                currentPlayer = "white";
+                break;
+            default:
+                break;
+        }
     }
 
     public void NextTurn()
     {
         if (currentPlayer == "white")
         {
-            currentPlayer = "black";
+          
             TurnImage[1].gameObject.SetActive(true);
             TurnImage[0].gameObject.SetActive(false);
+            AvaliblePlayer[0].isOn = false;
+            AvaliblePlayer[1].isOn = true;
+        
         }
         else
         {
-            currentPlayer = "white";
+        
             TurnImage[1].gameObject.SetActive(false);
             TurnImage[0].gameObject.SetActive(true);
+           
+            AvaliblePlayer[0].isOn = true;
+            AvaliblePlayer[1].isOn = false;
+           
         }
     }
 

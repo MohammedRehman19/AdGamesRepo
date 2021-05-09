@@ -31,8 +31,8 @@ public class MovePlate : MonoBehaviour
 
     public void OnMouseUp()
     {
-        GameObject.FindObjectOfType<BoardPlayer>().callMove(reference.GetComponent<PhotonView>().ViewID.ToString(),attack,matrixX,matrixY);
-       // reference.GetComponent<Chessman>().MoveObj(attack,matrixX,matrixY);
+      GameObject.FindObjectOfType<Game>().BP.callMove(reference.GetComponent<PhotonView>().ViewID.ToString(),attack,matrixX,matrixY);
+      
     }
 
     public void SetCoords(int x, int y)
