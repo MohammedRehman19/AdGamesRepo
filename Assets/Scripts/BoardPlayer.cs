@@ -19,7 +19,15 @@ public class BoardPlayer : MonoBehaviourPun
             return;
     
              main_Controller = GameObject.FindObjectOfType<Game>();
-             main_Controller.BP = this.GetComponent<BoardPlayer>();     
+             main_Controller.BP = this.GetComponent<BoardPlayer>();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            myplayer = "white";
+        }
+        else
+        {
+            myplayer = "black";
+        }
     }
    
     [PunRPC]
@@ -66,7 +74,9 @@ public class BoardPlayer : MonoBehaviourPun
     {
         GameObject.FindGameObjectWithTag("GameController").GetComponent<Game>().enabled = true;
         GameObject.Find("waitingtxt").SetActive(false);
+        GameObject.Find("TurnText").GetComponent<Text>().enabled = true;
         callAssignImage(PlayerPrefs.GetInt("ownplayer", 0));
+       
     }
    
     public void callMove(string refere, bool attack, int MatrixX, int MatrixY)

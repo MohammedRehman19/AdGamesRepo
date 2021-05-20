@@ -87,10 +87,15 @@ public class Game : MonoBehaviour
         PhotonView photonView = obj.GetComponent<PhotonView>();
         photonView.ViewID = Id;
         Id += 50005;
-        obj.transform.SetParent(GameObject.Find("Canvas").transform);
+        obj.transform.SetParent(GameObject.Find("UICanvas").transform);
         obj.transform.localPosition = ImagePos[ImagePlayer.Count].GetComponent<RectTransform>().localPosition;
         obj.transform.localScale = Vector3.one;
+      
         ImagePlayer.Add(obj.GetComponent<Image>());
+        if (ImagePlayer.Count == 1)
+        {
+            obj.transform.GetChild(1).GetComponent<Toggle>().isOn = true;
+        }
         TurnImage.Add(obj.transform.GetChild(0).GetComponent<Image>());
         AvaliblePlayer.Add(obj.transform.GetChild(1).GetComponent<Toggle>());
        

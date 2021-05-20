@@ -86,8 +86,8 @@ public class Chessman : MonoBehaviour
 
     private void OnMouseUp()
     {
-      //  if (controller.GetComponent<Game>().currentPlayer != controller.GetComponent<Game>().BP.myplayer)
-      //      return;
+        if (controller.GetComponent<Game>().currentPlayer != controller.GetComponent<Game>().BP.myplayer)
+            return;
 
 
         if (!controller.GetComponent<Game>().IsGameOver() && controller.GetComponent<Game>().currentPlayer == player)
